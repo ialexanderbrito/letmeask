@@ -7,11 +7,13 @@ type User = {
   id: string;
   name: string;
   avatar: string;
+  email: string | null;
 };
 
 type AuthContextType = {
   user: User | undefined;
   signInWithGoogle: () => Promise<void>;
+  signOut: () => Promise<void>;
 };
 
 type AuthContextProviderProps = {
@@ -27,7 +29,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        const { displayName, photoURL, uid } = user;
+        const { displayName, photoURL, uid, email } = user;
 
         if (!displayName || !photoURL) {
           throw new Error('Missing information from Google Account.');
@@ -37,6 +39,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
           id: uid,
           name: displayName,
           avatar: photoURL,
+          email: email,
         });
       }
     });
@@ -52,7 +55,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     const result = await auth.signInWithPopup(provider);
 
     if (result.user) {
-      const { displayName, photoURL, uid } = result.user;
+      const { displayName, photoURL, uid, email } = result.user;
 
       if (!displayName || !photoURL) {
         throw new Error('Missing information from Google Account.');
@@ -64,12 +67,19 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         id: uid,
         name: displayName,
         avatar: photoURL,
+        email: email,
       });
     }
   }
 
+  async function signOut() {
+    firebase.auth().signOut();
+
+    setUser(undefined);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, signInWithGoogle }}>
+    <AuthContext.Provider value={{ user, signInWithGoogle, signOut }}>
       {props.children}
     </AuthContext.Provider>
   );
