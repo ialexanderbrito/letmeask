@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App';
-import reportWebVitals from './reportWebVitals';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+// import reportWebVitals from './reportWebVitals';
+import { registerServiceWorker } from './serviceWorker';
+// import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 import './services/firebase';
 
@@ -16,5 +17,6 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-serviceWorkerRegistration.register();
-reportWebVitals();
+registerServiceWorker();
+// serviceWorkerRegistration.register();
+// reportWebVitals();
