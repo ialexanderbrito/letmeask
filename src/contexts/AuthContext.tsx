@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
+import { useToast } from '../hooks/useToast';
 import { auth, firebase } from '../services/firebase';
 
 type User = {
@@ -21,6 +22,7 @@ export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthContextProvider(props: AuthContextProviderProps) {
   const [user, setUser] = useState<User>();
+  const { showToast } = useToast();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -55,6 +57,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       if (!displayName || !photoURL) {
         throw new Error('Missing information from Google Account.');
       }
+
+      showToast('🎉', `Seja bem-vindo, ${displayName}!`);
 
       setUser({
         id: uid,

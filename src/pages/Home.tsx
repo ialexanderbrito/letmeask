@@ -6,13 +6,16 @@ import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 import { Button } from '../components/Button';
 import { useAuth } from '../hooks/useAuth';
+import { useToast } from '../hooks/useToast';
 import { database } from '../services/firebase';
 
 import '../styles/auth.scss';
 
 export function Home() {
   const history = useHistory();
+
   const { signInWithGoogle, user } = useAuth();
+  const { showToast } = useToast();
   const [roomCode, setRoomCode] = useState('');
 
   async function handleCreateRoom() {
@@ -32,11 +35,15 @@ export function Home() {
     const roomRef = await database.ref(`rooms/${roomCode}`).get();
 
     if (!roomRef.exists()) {
-      alert('Essa sala não existe.');
+      showToast('⚠️', 'Sala não encontrada');
       return;
     }
 
-    history.push(`/rooms/${roomCode}`);
+    if (roomRef.val().endedAt) {
+      showToast('⚠️', 'Essa sala já terminou.');
+    }
+
+    history.push(`/`);
   }
 
   return (

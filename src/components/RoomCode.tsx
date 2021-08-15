@@ -1,4 +1,5 @@
 import copyImg from '../assets/images/copy.svg';
+import { useToast } from '../hooks/useToast';
 
 import '../styles/room-code.scss';
 
@@ -6,10 +7,18 @@ type RoomCodeProps = {
   code: string;
 };
 
+export function copyToClipboard(code: string) {
+  navigator.clipboard.writeText(code);
+}
+
 export function RoomCode(props: RoomCodeProps) {
+  const { showToast } = useToast();
+
   function copyRoomCodeToClipboard() {
-    navigator.clipboard.writeText(props.code);
+    copyToClipboard(props.code);
+    showToast('✅', `Código da sala copiado!`);
   }
+
   return (
     <button className="room-code" onClick={copyRoomCodeToClipboard}>
       <div>
