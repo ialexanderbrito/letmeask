@@ -1,4 +1,3 @@
-// import { FormEvent, useState } from 'react';
 import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -27,11 +26,9 @@ export function AdminRoom() {
 
   const { showToast } = useToast();
 
-  // const [newQuestion, setNewQuestion] = useState('');
-
   const roomId = params.id;
 
-  const { title, questions } = useRoom(roomId);
+  const { title, questions, author } = useRoom(roomId);
 
   async function handleEndRoom() {
     await database.ref(`rooms/${roomId}`).update({
@@ -58,6 +55,19 @@ export function AdminRoom() {
       isHighlighted: true,
     });
   }
+
+  useEffect(() => {
+    if (!user) {
+      history.push(`/rooms/${roomId}`);
+      showToast('👀', `Opss você precisa está logado para acessar essa pagina`);
+    }
+    if (user && author) {
+      if (user.id !== author.id) {
+        history.push(`/rooms/${roomId}`);
+        showToast('👀', `Opss somente admin pode acessar essa página`);
+      }
+    }
+  });
 
   return (
     <div id="page-room">
