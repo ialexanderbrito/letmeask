@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import googleIconImg from '../assets/images/google-icon.svg';
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
+import userIconImg from '../assets/images/user-icon.svg';
 import { Button } from '../components/Button';
 import { useAuth } from '../hooks/useAuth';
 import { useToast } from '../hooks/useToast';
@@ -14,7 +15,7 @@ import '../styles/auth.scss';
 export function Home() {
   const history = useHistory();
 
-  const { signInWithGoogle, user } = useAuth();
+  const { signInWithGoogle, user, signOut } = useAuth();
   const { showToast } = useToast();
   const [roomCode, setRoomCode] = useState('');
 
@@ -23,6 +24,14 @@ export function Home() {
       await signInWithGoogle();
     }
     history.push('/rooms/new');
+  }
+
+  async function handleToContinueWith() {
+    history.push('/rooms/new');
+  }
+
+  async function handleSignOut() {
+    await signOut();
   }
 
   async function handleJoinRoom(event: FormEvent) {
@@ -59,10 +68,32 @@ export function Home() {
       <main>
         <div className="main-content">
           <img src={logoImg} alt="Letmeask" />
-          <button onClick={handleCreateRoom} className="create-room">
-            <img src={googleIconImg} alt="Logo do Google" />
-            Crie sua sala com o Google
-          </button>
+          {user ? (
+            <>
+              <button onClick={handleToContinueWith} className="btn-continue">
+                <img src={user.avatar} alt={user.name} />
+                <div>
+                  <p>{user.name}</p>
+                  <small>{user.email}</small>
+                </div>
+              </button>
+
+              <button
+                onClick={handleSignOut}
+                className="btn-continue btn-continue--another"
+              >
+                <img src={userIconImg} alt="Icone usuário" />
+                <div>
+                  <p>Usar outra conta</p>
+                </div>
+              </button>
+            </>
+          ) : (
+            <button onClick={handleCreateRoom} className="create-room">
+              <img src={googleIconImg} alt="Logo do Google" />
+              Crie sua sala com o Google
+            </button>
+          )}
           <div className="separator">ou entre em uma sala</div>
           <form onSubmit={handleJoinRoom}>
             <input
