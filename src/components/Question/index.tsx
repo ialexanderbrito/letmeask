@@ -13,7 +13,7 @@ type QuestionProps = {
   isHighlighted?: boolean;
 };
 
-import '../styles/question.scss';
+import './style.scss';
 
 export function Question({
   content,

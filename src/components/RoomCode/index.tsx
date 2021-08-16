@@ -1,7 +1,7 @@
-import copyImg from '../assets/images/copy.svg';
-import { useToast } from '../hooks/useToast';
+import copyImg from '../../assets/images/copy.svg';
+import { useToast } from '../../hooks/useToast';
 
-import '../styles/room-code.scss';
+import './style.scss';
 
 type RoomCodeProps = {
   code: string;
