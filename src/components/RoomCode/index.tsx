@@ -1,5 +1,6 @@
-import copyImg from '../../assets/images/copy.svg';
-import { useToast } from '../../hooks/useToast';
+import copyImg from 'assets/images/copy.svg';
+
+import { useToast } from 'hooks/useToast';
 
 import './style.scss';
 

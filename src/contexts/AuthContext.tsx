@@ -1,7 +1,8 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
-import { useToast } from '../hooks/useToast';
-import { auth, firebase } from '../services/firebase';
+import { auth, firebase } from 'services/firebase';
+
+import { useToast } from 'hooks/useToast';
 
 type User = {
   id: string;

@@ -1,17 +1,20 @@
 import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import answerImg from '../../assets/images/answer.svg';
-import checkImg from '../../assets/images/check.svg';
-import deleteImg from '../../assets/images/delete.svg';
-import logoImg from '../../assets/images/logo.svg';
-import { Button } from '../../components/Button';
-import { Question } from '../../components/Question';
-import { RoomCode } from '../../components/RoomCode';
-import { useAuth } from '../../hooks/useAuth';
-import { useRoom } from '../../hooks/useRoom';
-import { useToast } from '../../hooks/useToast';
-import { database } from '../../services/firebase';
+import answerImg from 'assets/images/answer.svg';
+import checkImg from 'assets/images/check.svg';
+import deleteImg from 'assets/images/delete.svg';
+import logoImg from 'assets/images/logo.svg';
+
+import { Button } from 'components/Button';
+import { Question } from 'components/Question';
+import { RoomCode } from 'components/RoomCode';
+
+import { database } from 'services/firebase';
+
+import { useAuth } from 'hooks/useAuth';
+import { useRoom } from 'hooks/useRoom';
+import { useToast } from 'hooks/useToast';
 
 import './style.scss';
 
